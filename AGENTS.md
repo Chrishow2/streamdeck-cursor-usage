@@ -11,8 +11,8 @@ Show Cursor usage percent and days until quota/billing reset on a Stream Deck ke
 | Path | Role |
 | --- | --- |
 | `src/` | TypeScript entry + actions |
-| `src/usage/` | `UsageProvider`, mock/real providers, `formatTitle` |
-| `src/actions/show-usage.ts` | Key refresh + title via provider |
+| `src/usage/` | Providers (`mock`, `cursor-cloud`), `resolveProvider`, `formatTitle` |
+| `src/actions/show-usage.ts` | Key refresh + title via resolved provider |
 | `com.local.cursor-usage.sdPlugin/` | Packaged plugin (`manifest.json`, `ui/`, `imgs/`) |
 | `com.local.cursor-usage.sdPlugin/bin/` | **Generated** — do not hand-edit |
 | `rolldown.config.ts` | Bundle path; `sdPlugin` must match UUID |
@@ -36,12 +36,14 @@ Compose sets `STREAMDECK_RESTART=0` — restart Stream Deck on the host after re
 
 - Action UUID in `@action` must match `manifest.json`
 - Usage fetch lives in `UsageProvider` implementations under `src/usage/`; action only refreshes + titles
+- Live usage: PI `accessToken` → HTTPS to Cursor only; **never** read `%AppData%\Cursor` / `state.vscdb`
 - Prefer Docker; do not require host Node or `.ps1` scripts
 
 ## Gotchas
 
-- Default provider is `MockUsageProvider` (42% / 12d) until a real Cursor source is wired (P3)
+- Empty token or `useMock` → `MockUsageProvider` (42% / 12d)
 - Auto-refresh clamps `refreshSeconds` to 30–600 (default 120); timers clear on will-disappear
+- Never log `accessToken` / session cookies
 - Named volume `cursor_usage_node_modules` caches deps; refresh if installs look stale
 - `*.sdPlugin/bin` is gitignored — build before testing in Stream Deck
 
@@ -49,3 +51,4 @@ Compose sets `STREAMDECK_RESTART=0` — restart Stream Deck on the host after re
 
 - Do not hand-edit `bin/plugin.js`
 - Do not change the sibling `boilerplate/` template from this project
+- Do not add local IDE profile scrapers without an explicit product decision

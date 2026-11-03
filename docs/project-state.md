@@ -3,7 +3,7 @@
 Living snapshot of what exists in the repo now.
 
 **Last updated:** 2026-11-03  
-**Current phase:** **P2 complete** → next **P3** (real Cursor usage source)
+**Current phase:** **P3 complete** → next **P4** (error / empty states)
 
 ## Completed
 
@@ -12,17 +12,16 @@ Living snapshot of what exists in the repo now.
 | Plugin UUID / package rename | `com.local.cursor-usage` |
 | Docker build / watch | Working (`STREAMDECK_RESTART=0`) |
 | Manifest + Show Usage action | Present |
-| `src/usage/` | `UsageProvider`, `MockUsageProvider`, `formatTitle` |
-| Default provider | `MockUsageProvider` → `42%` / `12d` |
-| Auto-refresh timer | `refreshSeconds` 30–600 (default 120); clear on disappear |
-| Docs: README, AGENTS, CLAUDE | Present |
-| Git remotes | `origin` = product repo; `upstream` = boilerplate |
-| Install | Copied to Stream Deck Plugins |
+| `src/usage/` | mock + `CursorCloudUsageProvider` + `resolveProvider` |
+| Credential | PI `accessToken` only (no profile / `state.vscdb` reads) |
+| Live API | `GetCurrentPeriodUsage` + `usage-summary` fallback |
+| Auto-refresh timer | `refreshSeconds` 30–600 (default 120) |
+| Mock fallback | No token or `useMock` → 42% / 12d |
+| Docs | README credential setup |
 
 ## Not started
 
-- Real Cursor data source (P3) — **decide data source first**
-- Error title tokens / resilience (P4)
+- Error title tokens / resilience polish (P4) — fetch failures currently show `—%` / `—d`
 - Automated tests / Marketplace pack
 
 ## Stack (as implemented)
@@ -33,17 +32,19 @@ Living snapshot of what exists in the repo now.
 | Build | Docker `node:24-bookworm` + rolldown |
 | Runtime target | Stream Deck Nodejs 20 in manifest |
 | Install | Copy into Plugins (not junction) |
+| Live data | Cursor HTTPS; credential in Stream Deck settings |
 
-## Quick verify (P2)
+## Quick verify (P3)
 
 ```powershell
 docker compose run --rm build
-# robocopy/copy into Plugins, restart Stream Deck
-# key shows 42%/12d; change refresh in PI → title updates on interval without tap
+# copy into Plugins, restart Stream Deck
+# no token → 42%/12d; paste credential → live % and days; tap refreshes
 ```
 
 ## Changelog
 
-- **2026-11-03** — P2 complete: per-key interval from `refreshSeconds`, cleared on disappear
-- **2026-11-03** — P1 complete: `UsageProvider` + mock (42%/12d)
+- **2026-11-03** — P3 complete: PI credential → Cursor cloud usage; mock fallback; no profile reads
+- **2026-11-03** — P2 complete: per-key interval from `refreshSeconds`
+- **2026-11-03** — P1 complete: `UsageProvider` + mock
 - **2026-11-03** — P0 complete: build + copy install
