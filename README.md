@@ -2,7 +2,17 @@
 
 Docker-first Stream Deck plugin for **Cursor usage %** and **days until reset**. Host Node.js is not required.
 
-## Quick start
+## Pre-built release
+
+On each version tag (`v*`), GitHub Actions builds the plugin and attaches `com.local.cursor-usage.streamDeckPlugin` to the [Releases](../../releases) page.
+
+1. Download the `.streamDeckPlugin` asset from the latest release.
+2. Double-click it (or open with Stream Deck) to install.
+3. Restart Stream Deck if the actions do not appear yet.
+
+To cut a release after pushing `main`: create and push a tag such as `v0.2.0` (match `package.json` / `manifest.json` when you can).
+
+## Quick start (build from source)
 
 Requires Docker and Stream Deck **7.1+**.
 

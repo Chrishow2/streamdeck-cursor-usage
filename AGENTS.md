@@ -38,6 +38,7 @@ robocopy ".\com.local.cursor-usage.sdPlugin" "$env:APPDATA\Elgato\StreamDeck\Plu
 
 - **Test / lint / typecheck:** none configured
 - **Before commit:** `docker compose run --rm build` must succeed
+- **Release:** push tag `v*` → `.github/workflows/release.yml` builds and uploads `.streamDeckPlugin`
 
 Compose sets `STREAMDECK_RESTART=0` — restart Stream Deck on the host after rebuilds.
 
