@@ -38,7 +38,6 @@ robocopy ".\com.local.cursor-usage.sdPlugin" "$env:APPDATA\Elgato\StreamDeck\Plu
 
 - **Test / lint / typecheck:** none configured
 - **Before commit:** `docker compose run --rm build` must succeed
-- **Release:** push tag `v*` → `.github/workflows/release.yml` builds and uploads `.streamDeckPlugin`
 
 Compose sets `STREAMDECK_RESTART=0` — restart Stream Deck on the host after rebuilds.
 
@@ -60,6 +59,7 @@ Compose sets `STREAMDECK_RESTART=0` — restart Stream Deck on the host after re
 - Named volume `cursor_usage_node_modules` caches deps; refresh if installs look stale
 - `*.sdPlugin/bin` is gitignored — build before testing in Stream Deck
 - Key art uses pure JS PNG (no native canvas/sharp)
+- Ship with `Nodejs.Debug` omitted and logger at `warn` (not `trace`)
 
 ## Boundaries
 

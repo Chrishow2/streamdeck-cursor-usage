@@ -1,7 +1,7 @@
 {
   "Name": "Cursor Usage",
   "Version": "0.2.0.0",
-  "Author": "Local",
+  "Author": "Chrishow2",
   "Actions": [
     {
       "Name": "Usage %",
@@ -72,8 +72,7 @@
     }
   ],
   "Nodejs": {
-    "Version": "20",
-    "Debug": "enabled"
+    "Version": "20"
   },
   "UUID": "com.local.cursor-usage"
 }

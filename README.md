@@ -4,13 +4,12 @@ Docker-first Stream Deck plugin for **Cursor usage %** and **days until reset**.
 
 ## Pre-built release
 
-On each version tag (`v*`), GitHub Actions builds the plugin and attaches `com.local.cursor-usage.streamDeckPlugin` to the [Releases](../../releases) page.
+Requires Stream Deck **7.1+**.
 
-1. Download the `.streamDeckPlugin` asset from the latest release.
-2. Double-click it (or open with Stream Deck) to install.
-3. Restart Stream Deck if the actions do not appear yet.
-
-To cut a release after pushing `main`: create and push a tag such as `v0.2.0` (match `package.json` / `manifest.json` when you can).
+1. Open the latest [Release](../../releases) → **Assets**.
+2. Download `com.local.cursor-usage.streamDeckPlugin`.
+3. Double-click it (or open with Stream Deck) to install.
+4. Restart Stream Deck if the actions do not appear yet.
 
 ## Quick start (build from source)
 
@@ -97,12 +96,6 @@ After each rebuild, `robocopy` (or equivalent) into Plugins again and restart St
 
 SDK: `@elgato/streamdeck` ^3. Plugin UUID: `com.local.cursor-usage`.
 
-## Docs
-
-- [Project state](docs/project-state.md)
-- [Stream Deck SDK – Getting started](https://docs.elgato.com/streamdeck/sdk/introduction/getting-started)
-- [Manifest reference](https://docs.elgato.com/streamdeck/sdk/references/manifest)
-
 ## Disclaimer
 
 This project is **not affiliated with**, endorsed by, or supported by Cursor or Elgato.
@@ -113,9 +106,10 @@ You paste credentials (access token or session cookie) at your own risk. Keep th
 
 The software is provided **as is**, with no warranty of any kind.
 
-## Contributing
+## Docs
 
-Agent notes: [AGENTS.md](AGENTS.md), [CLAUDE.md](CLAUDE.md).
+- [Stream Deck SDK – Getting started](https://docs.elgato.com/streamdeck/sdk/introduction/getting-started)
+- [Manifest reference](https://docs.elgato.com/streamdeck/sdk/references/manifest)
 
 ## License
 
