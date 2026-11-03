@@ -3,7 +3,7 @@
 Living snapshot of what exists in the repo now.
 
 **Last updated:** 2026-11-03  
-**Current phase:** **P1 complete** → next **P2** (auto-refresh from PI)
+**Current phase:** **P2 complete** → next **P3** (real Cursor usage source)
 
 ## Completed
 
@@ -14,15 +14,14 @@ Living snapshot of what exists in the repo now.
 | Manifest + Show Usage action | Present |
 | `src/usage/` | `UsageProvider`, `MockUsageProvider`, `formatTitle` |
 | Default provider | `MockUsageProvider` → `42%` / `12d` |
-| PI refresh slider | Present; **not** wired to a timer (P2) |
+| Auto-refresh timer | `refreshSeconds` 30–600 (default 120); clear on disappear |
 | Docs: README, AGENTS, CLAUDE | Present |
 | Git remotes | `origin` = product repo; `upstream` = boilerplate |
 | Install | Copied to Stream Deck Plugins |
 
 ## Not started
 
-- Auto-refresh timer from `refreshSeconds` (P2)
-- Real Cursor data source (P3)
+- Real Cursor data source (P3) — **decide data source first**
 - Error title tokens / resilience (P4)
 - Automated tests / Marketplace pack
 
@@ -35,16 +34,16 @@ Living snapshot of what exists in the repo now.
 | Runtime target | Stream Deck Nodejs 20 in manifest |
 | Install | Copy into Plugins (not junction) |
 
-## Quick verify (P1)
+## Quick verify (P2)
 
 ```powershell
 docker compose run --rm build
-# copy into Plugins, restart Stream Deck
-# Show Usage key → expect 42% / 12d; tap refreshes
+# robocopy/copy into Plugins, restart Stream Deck
+# key shows 42%/12d; change refresh in PI → title updates on interval without tap
 ```
 
 ## Changelog
 
-- **2026-11-03** — P1 complete: `UsageProvider` + mock (42%/12d); action uses provider
-- **2026-11-03** — P0 complete: build verified, plugin copied to Stream Deck Plugins
-- **2026-11-03** — Initial state after scaffold specialize
+- **2026-11-03** — P2 complete: per-key interval from `refreshSeconds`, cleared on disappear
+- **2026-11-03** — P1 complete: `UsageProvider` + mock (42%/12d)
+- **2026-11-03** — P0 complete: build + copy install
