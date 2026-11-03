@@ -19,11 +19,15 @@ $dest = Join-Path $env:APPDATA "Elgato\StreamDeck\Plugins\com.local.cursor-usage
 robocopy $src $dest /E /IS /IT
 ```
 
-Restart Stream Deck, then drag **Show Usage** onto a key.
+Restart Stream Deck, then under **Cursor Usage** drag:
 
-- **No credential:** mock `42%` / `12d`
+- **Usage %** — percent only (`42%`)
+- **Days Until Reset** — days only (`12d`)
+- **Overview** — both on one key (`42%` / `12d`)
+
+- **No credential:** mock values above
 - **With credential:** live usage from Cursor over HTTPS
-- Tap to refresh; property inspector sets refresh interval
+- Tap to refresh; property inspector sets credential + refresh interval (per key)
 
 ## Configure Cursor credential (recommended)
 

@@ -12,7 +12,8 @@ Show Cursor usage percent and days until quota/billing reset on a Stream Deck ke
 | --- | --- |
 | `src/` | TypeScript entry + actions |
 | `src/usage/` | Providers (`mock`, `cursor-cloud`), `resolveProvider`, `formatTitle` |
-| `src/actions/show-usage.ts` | Key refresh + title via resolved provider |
+| `src/actions/usage-key-action.ts` | Shared fetch/timer/settings for usage keys |
+| `src/actions/show-*.ts` | Usage %, Days, Overview title variants |
 | `com.local.cursor-usage.sdPlugin/` | Packaged plugin (`manifest.json`, `ui/`, `imgs/`) |
 | `com.local.cursor-usage.sdPlugin/bin/` | **Generated** — do not hand-edit |
 | `rolldown.config.ts` | Bundle path; `sdPlugin` must match UUID |

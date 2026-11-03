@@ -1,13 +1,45 @@
 {
   "Name": "Cursor Usage",
-  "Version": "0.1.0.0",
+  "Version": "0.1.1.0",
   "Author": "Local",
   "Actions": [
     {
-      "Name": "Show Usage",
+      "Name": "Usage %",
+      "UUID": "com.local.cursor-usage.percent",
+      "Icon": "imgs/actions/usage/icon",
+      "Tooltip": "Shows Cursor usage percent only.",
+      "PropertyInspectorPath": "ui/show-usage.html",
+      "Controllers": ["Keypad"],
+      "UserTitleEnabled": false,
+      "States": [
+        {
+          "Image": "imgs/actions/usage/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "SupportedInMultiActions": false
+    },
+    {
+      "Name": "Days Until Reset",
+      "UUID": "com.local.cursor-usage.days",
+      "Icon": "imgs/actions/usage/icon",
+      "Tooltip": "Shows days remaining until Cursor usage reset.",
+      "PropertyInspectorPath": "ui/show-usage.html",
+      "Controllers": ["Keypad"],
+      "UserTitleEnabled": false,
+      "States": [
+        {
+          "Image": "imgs/actions/usage/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "SupportedInMultiActions": false
+    },
+    {
+      "Name": "Overview",
       "UUID": "com.local.cursor-usage.show",
       "Icon": "imgs/actions/usage/icon",
-      "Tooltip": "Shows Cursor usage percent and days until reset.",
+      "Tooltip": "Shows Cursor usage percent and days until reset together.",
       "PropertyInspectorPath": "ui/show-usage.html",
       "Controllers": ["Keypad"],
       "UserTitleEnabled": false,
