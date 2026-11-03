@@ -1,8 +1,8 @@
 import streamDeck from "@elgato/streamdeck";
 
-import { IncrementCounter } from "./actions/increment-counter";
+import { ShowUsage } from "./actions/show-usage";
 
 streamDeck.logger.setLevel("trace");
 
-streamDeck.actions.registerAction(new IncrementCounter());
+streamDeck.actions.registerAction(new ShowUsage());
 streamDeck.connect();

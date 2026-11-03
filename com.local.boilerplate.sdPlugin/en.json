@@ -1,8 +1,0 @@
-{
-  "Description": "Docker-first local Stream Deck plugin boilerplate.",
-  "Name": "Local Boilerplate",
-  "com.local.boilerplate.increment": {
-    "Name": "Increment Counter",
-    "Tooltip": "Tap to count. Long-press to reset."
-  }
-}

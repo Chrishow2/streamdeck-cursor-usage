@@ -3,7 +3,7 @@ services:
     build: .
     volumes:
       - ./:/app
-      - boilerplate_node_modules:/app/node_modules
+      - cursor_usage_node_modules:/app/node_modules
     environment:
       STREAMDECK_RESTART: "0"
     command: sh -c "npm install && npm run build"
@@ -12,10 +12,10 @@ services:
     build: .
     volumes:
       - ./:/app
-      - boilerplate_node_modules:/app/node_modules
+      - cursor_usage_node_modules:/app/node_modules
     environment:
       STREAMDECK_RESTART: "0"
     command: sh -c "npm install && npm run watch"
 
 volumes:
-  boilerplate_node_modules:
+  cursor_usage_node_modules:

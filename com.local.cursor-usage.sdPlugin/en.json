@@ -1,0 +1,8 @@
+{
+  "Description": "Display Cursor usage and days until reset on Stream Deck.",
+  "Name": "Cursor Usage",
+  "com.local.cursor-usage.show": {
+    "Name": "Show Usage",
+    "Tooltip": "Usage percent and days until reset. Tap to refresh."
+  }
+}

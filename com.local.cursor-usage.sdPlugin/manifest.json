@@ -1,29 +1,29 @@
 {
-  "Name": "Local Boilerplate",
+  "Name": "Cursor Usage",
   "Version": "0.1.0.0",
   "Author": "Local",
   "Actions": [
     {
-      "Name": "Increment Counter",
-      "UUID": "com.local.boilerplate.increment",
-      "Icon": "imgs/actions/counter/icon",
-      "Tooltip": "Displays a count, which increments on press.",
-      "PropertyInspectorPath": "ui/increment-counter.html",
+      "Name": "Show Usage",
+      "UUID": "com.local.cursor-usage.show",
+      "Icon": "imgs/actions/usage/icon",
+      "Tooltip": "Shows Cursor usage percent and days until reset.",
+      "PropertyInspectorPath": "ui/show-usage.html",
       "Controllers": ["Keypad"],
       "UserTitleEnabled": false,
       "States": [
         {
-          "Image": "imgs/actions/counter/key",
+          "Image": "imgs/actions/usage/key",
           "TitleAlignment": "middle"
         }
       ],
       "SupportedInMultiActions": false
     }
   ],
-  "Category": "Local Boilerplate",
+  "Category": "Cursor Usage",
   "CategoryIcon": "imgs/plugin/category-icon",
   "CodePath": "bin/plugin.js",
-  "Description": "Docker-first local Stream Deck plugin boilerplate. Tap to increment, long-press to reset.",
+  "Description": "Display Cursor usage and days remaining until the quota or billing reset on your Stream Deck.",
   "Icon": "imgs/plugin/marketplace",
   "SDKVersion": 3,
   "Software": {
@@ -43,5 +43,5 @@
     "Version": "20",
     "Debug": "enabled"
   },
-  "UUID": "com.local.boilerplate"
+  "UUID": "com.local.cursor-usage"
 }

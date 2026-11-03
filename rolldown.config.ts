@@ -5,7 +5,7 @@ import url from "node:url";
 import { defineConfig } from "rolldown";
 
 const isWatching = !!process.env.ROLLUP_WATCH;
-const sdPlugin = "com.local.boilerplate";
+const sdPlugin = "com.local.cursor-usage";
 const sdPluginFolder = `${sdPlugin}.sdPlugin`;
 const canRestart = process.env.STREAMDECK_RESTART !== "0";
 
