@@ -8,6 +8,7 @@ export {
 	formatUsagePercent,
 	formatUsagePercentResult,
 } from "./format-title";
+export { renderDaysKeyArt, renderPercentKeyArt } from "./key-art";
 export { MockUsageProvider } from "./mock-provider";
 export { resolveProvider, type ProviderSettings } from "./resolve-provider";
 export type { UsageProvider, UsageResult, UsageSnapshot } from "./types";

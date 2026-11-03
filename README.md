@@ -17,11 +17,11 @@ robocopy $src $dest /E /IS /IT
 
 Restart Stream Deck. Under **Cursor Usage**, drag any of:
 
-| Action | Mock title (no credential) |
+| Action | Mock look (no credential) |
 | --- | --- |
-| **Usage %** | `42%` |
-| **Days Until Reset** | `12d` |
-| **Overview** | `42%` + `12d` |
+| **Usage %** | Cyan ring gauge + `42` + `CURSOR` (dynamic art) |
+| **Days Until Reset** | Large `12d` + `RESET` (dynamic art) |
+| **Overview** | Title text `42%` / `12d` (unchanged) |
 
 Then:
 

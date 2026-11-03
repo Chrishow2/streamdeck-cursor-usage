@@ -13,7 +13,8 @@ Actions: `percent`, `days`, `show` (Overview).
 | Path | Role |
 | --- | --- |
 | `src/` | TypeScript entry + actions |
-| `src/usage/` | Providers (`mock`, `cursor-cloud`), `resolveProvider`, format helpers |
+| `src/usage/` | Providers, format helpers, `key-art/` PNG renderers |
+| `src/usage/key-art/` | Pure-JS ring/% and days/RESET images (`setImage`) |
 | `src/actions/usage-key-action.ts` | Shared fetch/timer/settings |
 | `src/actions/show-*.ts` | Usage %, Days, Overview |
 | `com.local.cursor-usage.sdPlugin/` | Packaged plugin (`manifest.json`, `ui/`, `imgs/`) |
@@ -43,7 +44,7 @@ Compose sets `STREAMDECK_RESTART=0` — restart Stream Deck on the host after re
 ## Conventions
 
 - Action UUID in `@action` must match `manifest.json`
-- Usage fetch lives in `UsageProvider` implementations; actions only refresh + format titles
+- Usage fetch lives in `UsageProvider` implementations; percent/days use `setImage` key art
 - Live usage: PI `accessToken` → HTTPS to Cursor only; **never** read `%AppData%\Cursor` / `state.vscdb`
 - Prefer Docker; do not require host Node or `.ps1` scripts
 
@@ -52,10 +53,12 @@ Compose sets `STREAMDECK_RESTART=0` — restart Stream Deck on the host after re
 - Empty token or `useMock` → mock `42%` / `12d`
 - Auto-refresh clamps `refreshSeconds` to 30–600 (default 120); timers clear on will-disappear
 - Never log `accessToken` / session cookies
-- Fetch failures: `%` → `ERR`, days → `?d`, overview → `ERR`/`?d`; tap retries
+- Fetch failures: `%` → `ERR` art, days → `?d` art, overview titles `ERR`/`?d`; tap retries
+- Dynamic key art is **Usage %** + **Days** only; Overview stays title-based
 - Settings (including credential) are **per key instance**
 - Named volume `cursor_usage_node_modules` caches deps; refresh if installs look stale
 - `*.sdPlugin/bin` is gitignored — build before testing in Stream Deck
+- Key art uses pure JS PNG (no native canvas/sharp)
 
 ## Boundaries
 

@@ -32,6 +32,11 @@ export abstract class UsageKeyAction extends SingletonAction<UsageSettings> {
 
 	protected abstract formatTitle(result: UsageResult): string;
 
+	/** when set, image is source of truth and title is cleared */
+	protected renderKeyArt(_result: UsageResult): string | null {
+		return null;
+	}
+
 	override async onWillAppear(ev: WillAppearEvent<UsageSettings>): Promise<void> {
 		this.settingsByAction.set(ev.action.id, ev.payload.settings);
 		await this.refresh(ev.action, ev.payload.settings);
@@ -91,6 +96,24 @@ export abstract class UsageKeyAction extends SingletonAction<UsageSettings> {
 		}
 
 		const result = await this.loadResult(settings);
+		await this.applyPresentation(action, result);
+	}
+
+	private async applyPresentation(
+		action: KeyAction<UsageSettings>,
+		result: UsageResult,
+	): Promise<void> {
+		try {
+			const art = this.renderKeyArt(result);
+			if (art) {
+				await action.setImage(art);
+				await action.setTitle("");
+				return;
+			}
+		} catch {
+			streamDeck.logger.warn("key art render failed");
+		}
+
 		await action.setTitle(this.formatTitle(result));
 	}
 
