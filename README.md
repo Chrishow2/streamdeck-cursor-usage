@@ -1,6 +1,6 @@
 # Cursor Usage (Stream Deck)
 
-Local Stream Deck plugin that shows **Cursor usage** and **days until reset** on a key. Docker-first; host Node.js is not required.
+Docker-first Stream Deck plugin for **Cursor usage %** and **days until reset**. Host Node.js is not required.
 
 ## Quick start
 
@@ -9,35 +9,42 @@ Requires Docker and Stream Deck **7.1+**.
 ```powershell
 cd cursor-usage
 docker compose run --rm build
-```
 
-Copy the built plugin into Stream Deck (PowerShell):
-
-```powershell
 $src = Join-Path $PWD "com.local.cursor-usage.sdPlugin"
 $dest = Join-Path $env:APPDATA "Elgato\StreamDeck\Plugins\com.local.cursor-usage.sdPlugin"
 robocopy $src $dest /E /IS /IT
 ```
 
-Restart Stream Deck, then under **Cursor Usage** drag:
+Restart Stream Deck. Under **Cursor Usage**, drag any of:
 
-- **Usage %** — percent only (`42%`)
-- **Days Until Reset** — days only (`12d`)
-- **Overview** — both on one key (`42%` / `12d`)
+| Action | Mock title (no credential) |
+| --- | --- |
+| **Usage %** | `42%` |
+| **Days Until Reset** | `12d` |
+| **Overview** | `42%` + `12d` |
 
-- **No credential:** mock values above
-- **With credential:** live usage from Cursor over HTTPS
-- **Bad credential / network:** `ERR` (usage) / `?d` (days) — tap to retry
-- Tap to refresh; property inspector sets credential + refresh interval (per key)
+Then:
 
-## Configure Cursor credential (recommended)
+1. Select the key → open the property inspector.
+2. Optional: paste a **Cursor credential** (see below); leave **Force mock data** unchecked for live data.
+3. Tap the key to refresh; adjust **Refresh (seconds)** as needed (30–600).
 
-The plugin does **not** read your Cursor IDE profile or `state.vscdb`. Paste a credential into the key’s property inspector (stored in Stream Deck settings only).
+| State | Usage % | Days |
+| --- | --- | --- |
+| Mock / no token | `42%` | `12d` |
+| Live OK | e.g. `53%` | e.g. `9d` |
+| Fetch error | `ERR` | `?d` |
 
-**Option A — access token (preferred for `api2.cursor.sh`)**
+Credentials are **per key**. Paste on each action instance you use.
+
+## Configure Cursor credential
+
+The plugin does **not** read your Cursor IDE profile or `state.vscdb`. Paste into Stream Deck settings only.
+
+**Option A — access token** (preferred for `api2.cursor.sh`)
 
 1. Use a Cursor access token from your own login/session (e.g. agent/CLI login token).
-2. Paste it into **Cursor credential** on the key.
+2. Paste into **Cursor credential**.
 3. Leave **Force mock data** unchecked.
 
 **Option B — dashboard session cookie**
@@ -46,18 +53,28 @@ The plugin does **not** read your Cursor IDE profile or `state.vscdb`. Paste a c
 2. Copy `WorkosCursorSessionToken` (value alone, or `WorkosCursorSessionToken=...`).
 3. Paste into **Cursor credential**.
 
-Traffic goes only to Cursor (`api2.cursor.sh` and, as fallback, `cursor.com`). Never commit tokens. The plugin does not log the credential.
+Traffic goes only to Cursor (`api2.cursor.sh`, fallback `cursor.com`). Never commit tokens. The plugin does not log the credential.
 
 Unofficial usage endpoints may change when Cursor updates.
 
-## Usage
+## Develop
 
 ```powershell
 docker compose run --rm build
 docker compose run --rm watch
 ```
 
-After rebuilds, re-copy into Plugins and restart Stream Deck. Watch disables `streamdeck restart` (`STREAMDECK_RESTART=0`).
+After each rebuild, `robocopy` (or equivalent) into Plugins again and restart Stream Deck. Watch sets `STREAMDECK_RESTART=0` (no host Stream Deck CLI).
+
+`*.sdPlugin/bin` is gitignored — always build before testing.
+
+## Verify checklist
+
+- [ ] `docker compose run --rm build` succeeds
+- [ ] Plugin folder copied to `%AppData%\Elgato\StreamDeck\Plugins\com.local.cursor-usage.sdPlugin`
+- [ ] Stream Deck restarted; **Usage %** / **Days Until Reset** / **Overview** appear
+- [ ] No credential → mock titles; bad credential → `ERR` / `?d`; tap retries
+- [ ] Valid credential → live % and days (optional)
 
 ## Requirements
 

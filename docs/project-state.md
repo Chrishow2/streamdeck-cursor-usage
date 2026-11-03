@@ -3,25 +3,25 @@
 Living snapshot of what exists in the repo now.
 
 **Last updated:** 2026-11-03  
-**Current phase:** **P4 complete** → next **P5** (polish / ship notes)
+**Current phase:** **P5 complete** — MVP slice (P0–P5) done
 
 ## Completed
 
 | Area | Status |
 |------|--------|
-| Plugin UUID / package rename | `com.local.cursor-usage` |
+| P0–P4 | Shell, mock provider, auto-refresh, cloud credential, errors |
 | Actions | **Usage %**, **Days Until Reset**, **Overview** |
-| Shared key logic | `UsageKeyAction` + format helpers |
-| Credential | PI `accessToken` only (no profile reads) |
-| Live API | Connect RPC + usage-summary fallback |
-| Auto-refresh | `refreshSeconds` 30–600 |
-| Mock fallback | No token or `useMock` → 42% / 12d |
-| Errors (P4) | `ERR` / `?d` / overview `ERR\n?d`; safe logs; tap retries |
+| Docs polish (P5) | README verify checklist + AGENTS install path aligned |
+| Version | package `0.1.2` / manifest `0.1.2.0` |
+| Icons | Stock counter-style assets kept (optional refresh deferred) |
 
-## Not started
+## Not started / future
 
-- P5 polish (docs/icons accuracy pass)
-- Automated tests / Marketplace pack
+- Marketplace pack (F1)
+- Richer metrics / threshold images (F2)
+- Multi-profile (F3)
+- Automated tests
+- Custom key art (optional)
 
 ## Stack (as implemented)
 
@@ -29,20 +29,21 @@ Living snapshot of what exists in the repo now.
 |------|--------|
 | SDK | `@elgato/streamdeck` ^3.0.4 |
 | Build | Docker `node:24-bookworm` + rolldown |
-| Install | Copy into Plugins |
-| Live data | Cursor HTTPS; credential in Stream Deck settings |
+| Install | `robocopy` into Plugins |
+| Live data | Cursor HTTPS; PI credential; no profile reads |
 
-## Quick verify (P4)
+## Quick verify (P5)
+
+See README **Verify checklist**.
 
 ```powershell
 docker compose run --rm build
-# copy, restart Stream Deck
-# paste bad token → ERR / ?d; tap retries; fix token → live values
+robocopy ".\com.local.cursor-usage.sdPlugin" "$env:APPDATA\Elgato\StreamDeck\Plugins\com.local.cursor-usage.sdPlugin" /E /IS /IT
+# restart Stream Deck → mock titles without credential
 ```
 
 ## Changelog
 
-- **2026-11-03** — P4 complete: `UsageFetchError` codes; `ERR`/`?d` titles; no secret logs
-- **2026-11-03** — Separate Usage % / Days Until Reset actions; Overview kept
-- **2026-11-03** — P3 complete: PI credential → Cursor cloud
-- **2026-11-03** — P2 / P1 / P0 complete
+- **2026-11-03** — P5 complete: README/AGENTS polish, version bump, MVP closed
+- **2026-11-03** — P4 complete: `ERR`/`?d` titles
+- **2026-11-03** — Separate % / days actions; P3 cloud credential; P2–P0
