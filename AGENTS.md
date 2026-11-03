@@ -11,7 +11,8 @@ Show Cursor usage percent and days until quota/billing reset on a Stream Deck ke
 | Path | Role |
 | --- | --- |
 | `src/` | TypeScript entry + actions |
-| `src/actions/show-usage.ts` | Key title: usage % + days until reset |
+| `src/usage/` | `UsageProvider`, mock/real providers, `formatTitle` |
+| `src/actions/show-usage.ts` | Key refresh + title via provider |
 | `com.local.cursor-usage.sdPlugin/` | Packaged plugin (`manifest.json`, `ui/`, `imgs/`) |
 | `com.local.cursor-usage.sdPlugin/bin/` | **Generated** — do not hand-edit |
 | `rolldown.config.ts` | Bundle path; `sdPlugin` must match UUID |
@@ -34,12 +35,12 @@ Compose sets `STREAMDECK_RESTART=0` — restart Stream Deck on the host after re
 ## Conventions
 
 - Action UUID in `@action` must match `manifest.json`
-- Real usage data goes in `ShowUsage.fetchUsage()` — keep UI formatting in `formatTitle`
+- Usage fetch lives in `UsageProvider` implementations under `src/usage/`; action only refreshes + titles
 - Prefer Docker; do not require host Node or `.ps1` scripts
 
 ## Gotchas
 
-- `fetchUsage()` is a stub (`null` → `—%` / `—d`) until a Cursor usage source is wired
+- Default provider is `MockUsageProvider` (42% / 12d) until a real Cursor source is wired (P3)
 - Named volume `cursor_usage_node_modules` caches deps; refresh if installs look stale
 - `*.sdPlugin/bin` is gitignored — build before testing in Stream Deck
 
