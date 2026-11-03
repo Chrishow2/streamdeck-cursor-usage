@@ -27,6 +27,7 @@ Restart Stream Deck, then under **Cursor Usage** drag:
 
 - **No credential:** mock values above
 - **With credential:** live usage from Cursor over HTTPS
+- **Bad credential / network:** `ERR` (usage) / `?d` (days) — tap to retry
 - Tap to refresh; property inspector sets credential + refresh interval (per key)
 
 ## Configure Cursor credential (recommended)

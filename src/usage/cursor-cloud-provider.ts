@@ -1,3 +1,4 @@
+import { UsageFetchError } from "./errors";
 import type { UsageProvider, UsageSnapshot } from "./types";
 
 const CONNECT_URL = "https://api2.cursor.sh/aiserver.v1.DashboardService/GetCurrentPeriodUsage";
@@ -13,16 +14,20 @@ export class CursorCloudUsageProvider implements UsageProvider {
 	async fetch(): Promise<UsageSnapshot> {
 		const cred = normalizeCredential(this.credential);
 		if (!cred) {
-			throw new Error("missing Cursor credential");
+			throw new UsageFetchError("auth", "missing credential");
 		}
 
 		try {
 			return await fetchViaConnect(cred.bearer);
-		} catch {
+		} catch (first) {
 			if (cred.cookie) {
-				return await fetchViaUsageSummary(cred.cookie);
+				try {
+					return await fetchViaUsageSummary(cred.cookie);
+				} catch (second) {
+					throw preferUsageError(second, first);
+				}
 			}
-			throw new Error("Cursor usage request failed");
+			throw toUsageError(first);
 		}
 	}
 }
@@ -67,39 +72,80 @@ function extractBearerFromSession(session: string): string | null {
 }
 
 async function fetchViaConnect(bearer: string): Promise<UsageSnapshot> {
-	const res = await fetch(CONNECT_URL, {
-		method: "POST",
-		headers: {
-			Authorization: `Bearer ${bearer}`,
-			"Content-Type": "application/json",
-			"Connect-Protocol-Version": "1",
-		},
-		body: "{}",
-	});
-
-	if (!res.ok) {
-		throw new Error(`connect HTTP ${res.status}`);
+	let res: Response;
+	try {
+		res = await fetch(CONNECT_URL, {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${bearer}`,
+				"Content-Type": "application/json",
+				"Connect-Protocol-Version": "1",
+			},
+			body: "{}",
+		});
+	} catch {
+		throw new UsageFetchError("network", "connect unreachable");
 	}
 
-	const body = (await res.json()) as Record<string, unknown>;
-	return snapshotFromConnect(body);
+	if (!res.ok) {
+		throw httpUsageError(res.status, "connect");
+	}
+
+	try {
+		const body = (await res.json()) as Record<string, unknown>;
+		return snapshotFromConnect(body);
+	} catch {
+		throw new UsageFetchError("parse", "connect body");
+	}
 }
 
 async function fetchViaUsageSummary(cookieHeader: string): Promise<UsageSnapshot> {
-	const res = await fetch(SUMMARY_URL, {
-		method: "GET",
-		headers: {
-			Cookie: cookieHeader,
-			Origin: "https://cursor.com",
-		},
-	});
-
-	if (!res.ok) {
-		throw new Error(`usage-summary HTTP ${res.status}`);
+	let res: Response;
+	try {
+		res = await fetch(SUMMARY_URL, {
+			method: "GET",
+			headers: {
+				Cookie: cookieHeader,
+				Origin: "https://cursor.com",
+			},
+		});
+	} catch {
+		throw new UsageFetchError("network", "usage-summary unreachable");
 	}
 
-	const body = (await res.json()) as Record<string, unknown>;
-	return snapshotFromUsageSummary(body);
+	if (!res.ok) {
+		throw httpUsageError(res.status, "usage-summary");
+	}
+
+	try {
+		const body = (await res.json()) as Record<string, unknown>;
+		return snapshotFromUsageSummary(body);
+	} catch {
+		throw new UsageFetchError("parse", "usage-summary body");
+	}
+}
+
+function httpUsageError(status: number, where: string): UsageFetchError {
+	if (status === 401 || status === 403) {
+		return new UsageFetchError("auth", `${where} HTTP ${status}`);
+	}
+	if (status >= 500) {
+		return new UsageFetchError("network", `${where} HTTP ${status}`);
+	}
+	return new UsageFetchError("unknown", `${where} HTTP ${status}`);
+}
+
+function toUsageError(error: unknown): UsageFetchError {
+	return error instanceof UsageFetchError ? error : new UsageFetchError("unknown");
+}
+
+function preferUsageError(primary: unknown, fallback: unknown): UsageFetchError {
+	const a = toUsageError(primary);
+	const b = toUsageError(fallback);
+	if (a.code === "auth" || b.code === "auth") {
+		return a.code === "auth" ? a : b;
+	}
+	return a;
 }
 
 function snapshotFromConnect(body: Record<string, unknown>): UsageSnapshot {

@@ -3,25 +3,24 @@
 Living snapshot of what exists in the repo now.
 
 **Last updated:** 2026-11-03  
-**Current phase:** **P3 complete** (+ separate % / days actions) → next **P4** (error / empty states)
+**Current phase:** **P4 complete** → next **P5** (polish / ship notes)
 
 ## Completed
 
 | Area | Status |
 |------|--------|
 | Plugin UUID / package rename | `com.local.cursor-usage` |
-| Docker build / watch | Working (`STREAMDECK_RESTART=0`) |
 | Actions | **Usage %**, **Days Until Reset**, **Overview** |
 | Shared key logic | `UsageKeyAction` + format helpers |
-| Credential | PI `accessToken` only (no profile / `state.vscdb` reads) |
-| Live API | `GetCurrentPeriodUsage` + `usage-summary` fallback |
-| Auto-refresh timer | `refreshSeconds` 30–600 (default 120) |
+| Credential | PI `accessToken` only (no profile reads) |
+| Live API | Connect RPC + usage-summary fallback |
+| Auto-refresh | `refreshSeconds` 30–600 |
 | Mock fallback | No token or `useMock` → 42% / 12d |
-| Docs | README credential + action list |
+| Errors (P4) | `ERR` / `?d` / overview `ERR\n?d`; safe logs; tap retries |
 
 ## Not started
 
-- Error title tokens / resilience polish (P4) — fetch failures currently show `—%` / `—d`
+- P5 polish (docs/icons accuracy pass)
 - Automated tests / Marketplace pack
 
 ## Stack (as implemented)
@@ -30,22 +29,20 @@ Living snapshot of what exists in the repo now.
 |------|--------|
 | SDK | `@elgato/streamdeck` ^3.0.4 |
 | Build | Docker `node:24-bookworm` + rolldown |
-| Runtime target | Stream Deck Nodejs 20 in manifest |
-| Install | Copy into Plugins (not junction) |
+| Install | Copy into Plugins |
 | Live data | Cursor HTTPS; credential in Stream Deck settings |
 
-## Quick verify
+## Quick verify (P4)
 
 ```powershell
 docker compose run --rm build
-# copy into Plugins, restart Stream Deck
-# Cursor Usage → Usage %, Days Until Reset, Overview
+# copy, restart Stream Deck
+# paste bad token → ERR / ?d; tap retries; fix token → live values
 ```
 
 ## Changelog
 
-- **2026-11-03** — Separate **Usage %** and **Days Until Reset** actions; Overview kept
-- **2026-11-03** — P3 complete: PI credential → Cursor cloud usage; mock fallback
-- **2026-11-03** — P2 complete: per-key interval from `refreshSeconds`
-- **2026-11-03** — P1 complete: `UsageProvider` + mock
-- **2026-11-03** — P0 complete: build + copy install
+- **2026-11-03** — P4 complete: `UsageFetchError` codes; `ERR`/`?d` titles; no secret logs
+- **2026-11-03** — Separate Usage % / Days Until Reset actions; Overview kept
+- **2026-11-03** — P3 complete: PI credential → Cursor cloud
+- **2026-11-03** — P2 / P1 / P0 complete

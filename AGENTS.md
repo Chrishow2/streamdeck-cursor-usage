@@ -45,6 +45,7 @@ Compose sets `STREAMDECK_RESTART=0` — restart Stream Deck on the host after re
 - Empty token or `useMock` → `MockUsageProvider` (42% / 12d)
 - Auto-refresh clamps `refreshSeconds` to 30–600 (default 120); timers clear on will-disappear
 - Never log `accessToken` / session cookies
+- Fetch failures: `%` keys → `ERR`, days keys → `?d`, overview → `ERR`/`?d`; tap retries
 - Named volume `cursor_usage_node_modules` caches deps; refresh if installs look stale
 - `*.sdPlugin/bin` is gitignored — build before testing in Stream Deck
 

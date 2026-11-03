@@ -9,7 +9,12 @@ import {
 	WillDisappearEvent,
 } from "@elgato/streamdeck";
 
-import { resolveProvider, type ProviderSettings, type UsageSnapshot } from "../usage";
+import {
+	UsageFetchError,
+	resolveProvider,
+	type ProviderSettings,
+	type UsageResult,
+} from "../usage";
 
 export type UsageSettings = ProviderSettings & {
 	/** refresh interval in seconds (property inspector) */
@@ -25,7 +30,7 @@ export abstract class UsageKeyAction extends SingletonAction<UsageSettings> {
 	private readonly timers = new Map<string, ReturnType<typeof setInterval>>();
 	private readonly settingsByAction = new Map<string, UsageSettings>();
 
-	protected abstract formatTitle(snap: UsageSnapshot): string;
+	protected abstract formatTitle(result: UsageResult): string;
 
 	override async onWillAppear(ev: WillAppearEvent<UsageSettings>): Promise<void> {
 		this.settingsByAction.set(ev.action.id, ev.payload.settings);
@@ -85,14 +90,18 @@ export abstract class UsageKeyAction extends SingletonAction<UsageSettings> {
 			return;
 		}
 
+		const result = await this.loadResult(settings);
+		await action.setTitle(this.formatTitle(result));
+	}
+
+	private async loadResult(settings: UsageSettings): Promise<UsageResult> {
 		try {
 			const snap = await resolveProvider(settings).fetch();
-			await action.setTitle(this.formatTitle(snap));
-		} catch {
-			streamDeck.logger.warn("usage fetch failed");
-			await action.setTitle(
-				this.formatTitle({ usageRatio: null, daysUntilReset: null }),
-			);
+			return { ok: true, snap };
+		} catch (error) {
+			const code = error instanceof UsageFetchError ? error.code : "unknown";
+			streamDeck.logger.warn(`usage fetch failed (${code})`);
+			return { ok: false, code };
 		}
 	}
 }
