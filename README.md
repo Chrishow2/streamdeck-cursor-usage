@@ -81,7 +81,7 @@ Sample plugin runtime uses Stream Deck’s embedded Node (`Nodejs.Version` **20*
 
 ## Contributing
 
-This folder is a **plugin-agnostic template**. Prefer changes that help every new plugin, not one product. Local agent guidance lives in [`.cursor/rules/plugin-agnostic.mdc`](.cursor/rules/plugin-agnostic.mdc).
+This folder is a **plugin-agnostic template**. Prefer changes that help every new plugin, not one product. Agent notes: [AGENTS.md](AGENTS.md), [CLAUDE.md](CLAUDE.md).
 
 ## License
 
