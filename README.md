@@ -103,11 +103,20 @@ SDK: `@elgato/streamdeck` ^3. Plugin UUID: `com.local.cursor-usage`.
 - [Stream Deck SDK – Getting started](https://docs.elgato.com/streamdeck/sdk/introduction/getting-started)
 - [Manifest reference](https://docs.elgato.com/streamdeck/sdk/references/manifest)
 
+## Disclaimer
+
+This project is **not affiliated with**, endorsed by, or supported by Cursor or Elgato.
+
+Live usage data uses **unofficial / unsupported** Cursor endpoints. They may change, break, or stop working without notice. Displayed percentages and reset days may be incomplete or wrong.
+
+You paste credentials (access token or session cookie) at your own risk. Keep them private; revoke them if exposed. Whether using this plugin is allowed under Cursor’s terms is your responsibility.
+
+The software is provided **as is**, with no warranty of any kind.
+
 ## Contributing
 
 Agent notes: [AGENTS.md](AGENTS.md), [CLAUDE.md](CLAUDE.md).
 
 ## License
 
-<!-- TODO: add a LICENSE file and name the license here -->
-Not specified yet.
+[MIT](LICENSE) — Copyright (c) 2026 Chrishow2.
