@@ -1,0 +1,21 @@
+services:
+  build:
+    build: .
+    volumes:
+      - ./:/app
+      - boilerplate_node_modules:/app/node_modules
+    environment:
+      STREAMDECK_RESTART: "0"
+    command: sh -c "npm install && npm run build"
+
+  watch:
+    build: .
+    volumes:
+      - ./:/app
+      - boilerplate_node_modules:/app/node_modules
+    environment:
+      STREAMDECK_RESTART: "0"
+    command: sh -c "npm install && npm run watch"
+
+volumes:
+  boilerplate_node_modules:

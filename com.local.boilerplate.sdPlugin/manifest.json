@@ -1,0 +1,47 @@
+{
+  "Name": "Local Boilerplate",
+  "Version": "0.1.0.0",
+  "Author": "Local",
+  "Actions": [
+    {
+      "Name": "Increment Counter",
+      "UUID": "com.local.boilerplate.increment",
+      "Icon": "imgs/actions/counter/icon",
+      "Tooltip": "Displays a count, which increments on press.",
+      "PropertyInspectorPath": "ui/increment-counter.html",
+      "Controllers": ["Keypad"],
+      "UserTitleEnabled": false,
+      "States": [
+        {
+          "Image": "imgs/actions/counter/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "SupportedInMultiActions": false
+    }
+  ],
+  "Category": "Local Boilerplate",
+  "CategoryIcon": "imgs/plugin/category-icon",
+  "CodePath": "bin/plugin.js",
+  "Description": "Docker-first local Stream Deck plugin boilerplate. Tap to increment, long-press to reset.",
+  "Icon": "imgs/plugin/marketplace",
+  "SDKVersion": 3,
+  "Software": {
+    "MinimumVersion": "7.1"
+  },
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "12"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Nodejs": {
+    "Version": "20",
+    "Debug": "enabled"
+  },
+  "UUID": "com.local.boilerplate"
+}
