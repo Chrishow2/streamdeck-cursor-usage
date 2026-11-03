@@ -43,6 +43,7 @@ SDK: `@elgato/streamdeck` ^3. Plugin UUID: `com.local.cursor-usage`.
 
 ## Docs
 
+- [Project state](docs/project-state.md)
 - [Stream Deck SDK – Getting started](https://docs.elgato.com/streamdeck/sdk/introduction/getting-started)
 - [Manifest reference](https://docs.elgato.com/streamdeck/sdk/references/manifest)
 
